@@ -170,6 +170,8 @@ def update_clang():
 
 
 def update_gn():
+  if sys.platform.startswith('freebsd'):
+    return
   os.chdir(SRC_DIR)
   download = os.path.join(DEPOT_TOOLS, 'download_from_google_storage.py')
   if sys.platform in ['win32', 'cygwin']:
@@ -189,12 +191,17 @@ def update_gn():
 
 
 def run_gn(target_arch, defines):
+  extra_args = ''
   if sys.platform in ['win32', 'cygwin']:
     gn = os.path.join(SRC_DIR, 'buildtools', 'win', 'gn.exe')
   elif sys.platform == 'linux2':
     gn = os.path.join(SRC_DIR, 'buildtools', 'linux64', 'gn')
   elif sys.platform == 'darwin':
     gn = os.path.join(SRC_DIR, 'buildtools', 'mac', 'gn')
+  elif sys.platform.startswith('freebsd'):
+    gn = os.path.join(SRC_DIR, 'out', 'Release', 'gn')
+    # extra_args = 'use_alsa=true ffmpeg_branding="Chrome" proprietary_codecs=true enable_hevc_demuxing=true  use_lld=true is_debug=false symbol_level=0 remove_webcore_debug_symbols=true  use_gconf=true use_kerberos=true  clang_use_chrome_plugins=false enable_media_router=true enable_nacl=false enable_remoting=false toolkit_views=true use_allocator="none" use_aura=true use_experimental_allocator_shim=true treat_warnings_as_errors=false use_sysroot=false use_system_libjpeg=true use_system_sqlite=false'
+    extra_args = 'import("//chromiumcontent/args/freebsd.gn")'
 
   env = os.environ.copy()
   if sys.platform in ['win32', 'cygwin']:
@@ -206,7 +213,7 @@ def run_gn(target_arch, defines):
     target_cpu = target_arch
 
   for component in COMPONENTS:
-    args = 'import("//chromiumcontent/args/{0}.gn") target_cpu="{1}"'.format(component, target_cpu)
+    args = 'import("//chromiumcontent/args/{0}.gn") {2} target_cpu="{1}"'.format(component, target_cpu, extra_args)
     output_dir = os.path.join(get_output_dir(target_arch, component),
                               get_configuration(target_arch))
     subprocess.call([gn, 'gen', output_dir, '--args=' + args],
