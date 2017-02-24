@@ -23,20 +23,27 @@ SRC_DIR = os.path.join(SOURCE_ROOT, 'src')
 MAIN_DIR = os.path.join(DIST_DIR, 'main')
 DIST_SRC_DIR = os.path.join(MAIN_DIR, 'src')
 
+PLATFORM = sys.platform
+if PLATFORM.startswith('freebsd'):
+  PLATFORM = 'freebsd'
+
 TARGET_PLATFORM = {
   'cygwin': 'win32',
   'darwin': 'darwin',
+  'freebsd': 'freebsd',
   'linux2': 'linux',
   'win32': 'win32',
-}[sys.platform]
+}[PLATFORM]
 
 SHARED_LIBRARY_SUFFIX = {
   'darwin': 'dylib',
+  'freebsd': 'so',
   'linux': 'so',
   'win32': 'dll',
 }[TARGET_PLATFORM]
 STATIC_LIBRARY_SUFFIX = {
   'darwin': 'a',
+  'freebsd': 'a',
   'linux': 'a',
   'win32': 'lib',
 }[TARGET_PLATFORM]
@@ -57,6 +64,9 @@ BINARIES = {
   ],
   'darwin': [
     'libffmpeg.dylib',
+  ],
+  'freebsd': [
+    'libffmpeg.so',
   ],
   'linux': [
     'libffmpeg.so',
@@ -93,6 +103,27 @@ BINARIES_SHARED_LIBRARY = {
     os.path.join('obj', 'third_party', 'pdfium', 'libjavascript.a'),
     os.path.join('obj', 'third_party', 'pdfium', 'libpdfwindow.a'),
     os.path.join('obj', 'third_party', 'pdfium', 'third_party', 'libfx_freetype.a'),
+  ],
+  'freebsd': [
+    os.path.join('obj', 'components', 'cdm', 'renderer', 'librenderer.a'),
+    os.path.join('obj', 'net', 'libhttp_server.a'),
+    os.path.join('obj', 'third_party', 'webrtc', 'base', 'librtc_base.a'),
+    os.path.join('obj', 'third_party', 'webrtc', 'base', 'librtc_base_approved.a'),
+    os.path.join('obj', 'ui', 'events', 'libdom_keycode_converter.a'),
+    os.path.join('obj', 'pdf', 'libpdf.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libpdfium.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libfdrm.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libformfiller.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libfpdfapi.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libfpdfdoc.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libfpdftext.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libfxcodec.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libfxcrt.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libfxedit.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libfxge.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libfxjs.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libjavascript.a'),
+    os.path.join('obj', 'third_party', 'pdfium', 'libpdfwindow.a'),
   ],
   'linux': [
     os.path.join('obj', 'components', 'cdm', 'renderer', 'librenderer.a'),
@@ -198,6 +229,9 @@ SYMBOLS = {
     # OS X has a more complicated symbol creation process. See
     # create_dsym() and copy_symbols().
   ],
+  'freebsd': [
+    'libosmesa.so.dbg',
+  ],
   'linux': [
     'libosmesa.so.dbg',
   ],
@@ -258,6 +292,10 @@ INCLUDE_DIRS = [
   'webkit',
 ] + {
   'darwin': [],
+  'freebsd': [
+    'dbus',
+    'third_party/speech-dispatcher',
+  ],
   'linux': [
     'dbus',
     'third_party/speech-dispatcher',
@@ -399,13 +437,13 @@ def copy_binaries(target_arch, component, output_dir, create_debug_archive):
           if pdb.endswith('.pdb'):
             shutil.copy2(os.path.join(root, pdb), target_dir)
 
-  if TARGET_PLATFORM == 'linux':
+  if TARGET_PLATFORM == 'linux' or TARGET_PLATFORM == 'freebsd':
     if component == 'shared_library':
       # out/Release/lib/*.so
       for library in glob.glob(os.path.join(config_dir, '*.so')):
         copy_with_blacklist(target_arch, library, target_dir)
 
-  if TARGET_PLATFORM in ['linux', 'darwin']:
+  if TARGET_PLATFORM in ['linux', 'darwin', 'freebsd']:
     if create_debug_archive:
       print 'Extracting debug symbols...'
     for binary in BINARIES[TARGET_PLATFORM]:
@@ -475,7 +513,7 @@ def copy_ffmpeg(target_arch):
                             get_configuration(target_arch))
   if TARGET_PLATFORM == 'darwin':
     binary = 'libffmpeg.dylib'
-  elif TARGET_PLATFORM == 'linux':
+  elif TARGET_PLATFORM == 'linux' or TARGET_PLATFORM == 'freebsd':
     binary = 'libffmpeg.so'
   elif TARGET_PLATFORM == 'win32':
     binary = 'ffmpeg.dll'
@@ -539,7 +577,7 @@ def run_strip(target_arch, filename, create_debug_archive):
   if filename.endswith('.a'):
     return
 
-  if TARGET_PLATFORM == 'linux':
+  if TARGET_PLATFORM == 'linux' or TARGET_PLATFORM == 'freebsd':
     strip_flags = []
   else:
     strip_flags = ['-x', '-S']
