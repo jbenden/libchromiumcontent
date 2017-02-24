@@ -16,7 +16,7 @@ COMPONENTS = ['static_library', 'shared_library', 'ffmpeg']
 NINJA = os.path.join(VENDOR_DIR, 'depot_tools', 'ninja')
 if sys.platform == 'win32':
   NINJA = '{0}.exe'.format(NINJA)
-elif sys.platform == 'freebsd11':
+elif sys.platform.startswith('freebsd'):
   NINJA = '/usr/local/bin/ninja'
 
 
