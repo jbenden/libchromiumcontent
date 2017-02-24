@@ -31,7 +31,7 @@ group("targets") {
       "//ui/views/controls/webview",
     ]
 
-    if (is_linux) {
+    if (is_linux || is_bsd) {
       deps += [ "//chrome/browser/ui/libgtkui:libgtk2ui" ]
     }
 
@@ -51,7 +51,7 @@ group("targets") {
         ":webrtc_common",
       ]
 
-      if (is_linux) {
+      if (is_linux || is_bsd) {
         deps += [ ":libgtkui" ]
       }
 
@@ -148,7 +148,7 @@ if (is_electron_build && is_component_build) {
       deps = [ "//third_party/webrtc:webrtc_common" ]
   }
 
-  if (is_linux) {
+  if (is_linux || is_bsd) {
     # The original libgtkui target is a shared library, so we must list
     # the object files instead of just depending on it.
     static_library("libgtkui") {
@@ -371,8 +371,10 @@ config("build_time_executable") {
   # libraries in the executable's directory, so ICU cannot be found. So let's
   # make sure rpath is set here.
   # See '//build/config/gcc/BUILD.gn' for details on the rpath setting.
-  if (is_electron_build && is_linux && !is_component_build) {
-    configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
+  if (is_electron_build && !is_component_build) {
+    if (is_linux || is_bsd) {
+      configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
+    }
   }
 }
 
