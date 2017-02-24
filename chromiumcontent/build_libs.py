@@ -269,6 +269,11 @@ with open(args.out, 'w') as out:
         ])
 
 os.environ['CHROMIUMCONTENT_2ND_PASS'] = '1'
-subprocess.check_call(['ninja', 'chromiumcontent:libs'])
+
+NINJA = 'ninja'
+if sys.platform.startswith('freebsd'):
+  NINJA = '/usr/local/bin/ninja'
+
+subprocess.check_call([NINJA, 'chromiumcontent:libs'])
 
 open(args.stamp, 'w')

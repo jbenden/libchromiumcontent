@@ -25,6 +25,8 @@ DEPOT_TOOLS = os.path.join(VENDOR_DIR, 'depot_tools')
 NINJA = os.path.join(DEPOT_TOOLS, 'ninja')
 if sys.platform == 'win32':
   NINJA = '{0}.exe'.format(NINJA)
+elif sys.platform.startswith('freebsd'):
+  NINJA = '/usr/local/bin/ninja'
 
 TARBALL_REPO = 'zcbenz/chromium-source-tarball'
 TARBALL_URL = 'https://github.com/{0}/releases/download/{1}/chromium-{1}.tar.xz'
