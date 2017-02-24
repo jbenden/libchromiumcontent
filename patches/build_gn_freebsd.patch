@@ -1,0 +1,40 @@
+--- a/build/config/BUILDCONFIG.gn	2017-02-24 08:22:05.341196000 -0700
++++ b/build/config/BUILDCONFIG.gn	2017-02-23 10:57:28.334553000 -0700
+@@ -123,6 +123,8 @@
+ #   even if the value is overridden, which is wasteful. See first bullet.
+ 
+ declare_args() {
++  is_electron_build = false
++
+   # Set to enable the official build level of optimization. This has nothing
+   # to do with branding, but enables an additional level of optimization above
+   # release (!is_debug). This might be better expressed as a tri-state
+@@ -490,6 +492,7 @@
+   "//build/config/compiler:no_rtti",
+   "//build/config/compiler:runtime_library",
+   "//build/config/sanitizers:default_sanitizer_flags",
++  "//chromiumcontent:mas_build",
+ ]
+ if (is_win) {
+   default_compiler_configs += [
+--- a/third_party/WebKit/Source/platform/BUILD.gn	2017-02-01 19:03:09.000000000 -0700
++++ b/third_party/WebKit/Source/platform/BUILD.gn	2017-02-23 10:55:30.585449000 -0700
+@@ -171,6 +171,7 @@
+ }
+ 
+ executable("character_data_generator") {
++  configs += [ "//chromiumcontent:build_time_executable" ]
+   sources = [
+     "text/CharacterPropertyDataGenerator.cpp",
+     "text/CharacterPropertyDataGenerator.h",
+--- a/third_party/widevine/cdm/BUILD.gn	2017-02-24 08:22:08.897471000 -0700
++++ b/third_party/widevine/cdm/BUILD.gn	2017-02-23 10:56:04.736070000 -0700
+@@ -105,7 +105,7 @@
+       "//build/config/sanitizers:deps",
+     ]
+ 
+-    if (is_mac) {
++    if (is_mac && !is_electron_build) {
+       ldflags = [
+         # Not to strip important symbols by -Wl,-dead_strip.
+         "-Wl,-exported_symbol,_PPP_GetInterface",

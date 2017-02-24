@@ -36,6 +36,10 @@ def apply_patches_for_dir(directory):
     for name in sorted(files):
       if not name.endswith('.patch'):
         continue
+      if sys.platform.startswith('freebsd') and name.endswith('build_gn.patch'):
+        continue
+      elif not sys.platform.startswith('freebsd') and name.endswith('build_gn_freebsd.patch'):
+        continue
       patch = os.path.join(root, name)
       if subprocess.call(args + [patch]):
         return '{0} failed to apply'.format(os.path.basename(patch))
