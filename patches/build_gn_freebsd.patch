@@ -38,3 +38,16 @@
        ldflags = [
          # Not to strip important symbols by -Wl,-dead_strip.
          "-Wl,-exported_symbol,_PPP_GetInterface",
+--- a/content/common/BUILD.gn	2017-02-24 19:41:59.205015000 -0700
++++ b/content/common/BUILD.gn	2017-02-24 19:42:48.747365000 -0700
+@@ -437,6 +437,10 @@
+     deps += [ "//sandbox/mac:seatbelt" ]
+   }
+ 
++  if (is_bsd) {
++   libs += [ "c" ]
++  }
++
+   if (is_android) {
+     deps += [
+       "//content/public/android:common_aidl",
