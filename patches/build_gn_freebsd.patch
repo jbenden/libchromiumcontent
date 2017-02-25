@@ -39,13 +39,15 @@
          # Not to strip important symbols by -Wl,-dead_strip.
          "-Wl,-exported_symbol,_PPP_GetInterface",
 --- a/content/common/set_process_title_linux.cc	2017-02-25 09:03:30.730894000 -0700
-+++ b/content/common/set_process_title_linux.cc	2017-02-25 09:04:31.111918000 -0700
-@@ -46,7 +46,9 @@
++++ b/content/common/set_process_title_linux.cc	2017-02-25 09:34:23.973391000 -0700
+@@ -46,7 +46,11 @@
  #include <string.h>
  #include <unistd.h>
  
 +#if !defined(OS_FREEBSD)
  extern char** environ;
++#else
++extern "C" char** environ;
 +#endif
  
  static char** g_main_argv = NULL;
