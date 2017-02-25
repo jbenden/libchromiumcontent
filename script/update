@@ -204,7 +204,7 @@ def run_gn(target_arch, defines):
     gn = os.path.join(SRC_DIR, 'out', 'Release', 'gn')
     # extra_args = 'use_alsa=true ffmpeg_branding="Chrome" proprietary_codecs=true enable_hevc_demuxing=true  use_lld=true is_debug=false symbol_level=0 remove_webcore_debug_symbols=true  use_gconf=true use_kerberos=true  clang_use_chrome_plugins=false enable_media_router=true enable_nacl=false enable_remoting=false toolkit_views=true use_allocator="none" use_aura=true use_experimental_allocator_shim=true treat_warnings_as_errors=false use_sysroot=false use_system_libjpeg=true use_system_sqlite=false'
     # build/toolchain/gcc_toolchain.gni
-    extra_args = 'import("//chromiumcontent/args/freebsd.gn") extra_ldflags="-lc"'
+    extra_args = 'import("//chromiumcontent/args/freebsd.gn")'
 
   env = os.environ.copy()
   if sys.platform in ['win32', 'cygwin']:
