@@ -65,9 +65,7 @@ BINARIES = {
   'darwin': [
     'libffmpeg.dylib',
   ],
-  'freebsd': [
-    'libffmpeg.so',
-  ],
+  'freebsd': [],
   'linux': [
     'libffmpeg.so',
   ],
