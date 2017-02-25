@@ -62,3 +62,21 @@
 +#endif
      g_main_argv = const_cast<char**>(main_argv);
  }
+--- a/third_party/angle/BUILD.gn	2017-02-25 16:24:34.263054000 -0700
++++ b/third_party/angle/BUILD.gn	2017-02-25 16:25:19.084791000 -0700
+@@ -415,6 +415,15 @@
+       "@executable_path/",
+     ]
+   }
++  if (is_bsd) {
++    rpath_link = "."
++
++    ldflags = [
++      # Want to pass "\$". GN will re-escape as required for ninja.
++      "-Wl,-rpath=\$ORIGIN/${rpath_link}",
++      "-Wl,-rpath-link=${rpath_link}",
++    ]
++  }
+ }
+ 
+ shared_library("libGLESv2") {
