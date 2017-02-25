@@ -506,12 +506,14 @@ def copy_sources():
 
 
 def copy_ffmpeg(target_arch):
+  if TARGET_PLATFORM == 'freebsd':
+    return
   output_dir = os.path.join(SRC_DIR,
                             get_output_dir(target_arch, 'ffmpeg'),
                             get_configuration(target_arch))
   if TARGET_PLATFORM == 'darwin':
     binary = 'libffmpeg.dylib'
-  elif TARGET_PLATFORM == 'linux' or TARGET_PLATFORM == 'freebsd':
+  elif TARGET_PLATFORM == 'linux':
     binary = 'libffmpeg.so'
   elif TARGET_PLATFORM == 'win32':
     binary = 'ffmpeg.dll'
