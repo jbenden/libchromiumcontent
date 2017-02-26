@@ -375,6 +375,11 @@ def program_available(prog):
   try:
     subprocess.check_output([prog, '--help'])
     return True
+  except subprocess.CalledProcessError as e:
+    if (TARGET_PLATFORM == 'freebsd'
+        and prog == 'objcopy'
+        and e.returncode == 1):
+      return True
   except OSError as e:
     return False
 
