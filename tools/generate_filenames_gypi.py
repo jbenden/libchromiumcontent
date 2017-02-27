@@ -5,20 +5,27 @@ import os
 import sys
 
 
+PLATFORM = sys.platform
+if PLATFORM.startswith('freebsd'):
+  PLATFORM = 'freebsd'
+
 TARGET_PLATFORM = {
   'cygwin': 'win32',
   'darwin': 'darwin',
+  'freebsd': 'freebsd',
   'linux2': 'linux',
   'win32': 'win32',
-}[sys.platform]
+}[PLATFORM]
 
 SHARED_LIBRARY_SUFFIX = {
   'darwin': 'dylib',
+  'freebsd': 'so',
   'linux': 'so',
   'win32': 'dll',
 }[TARGET_PLATFORM]
 STATIC_LIBRARY_SUFFIX = {
   'darwin': 'a',
+  'freebsd': 'a',
   'linux': 'a',
   'win32': 'lib',
 }[TARGET_PLATFORM]
@@ -26,6 +33,10 @@ STATIC_LIBRARY_SUFFIX = {
 EXCLUDE_SHARED_LIBRARIES = {
   'darwin': [
     'libwidevinecdm.dylib',
+  ],
+  'freebsd': [
+    'libwidevinecdm.so',
+    'libwidevinecdmadapter.so',
   ],
   'linux': [
     'libwidevinecdm.so',
@@ -44,6 +55,14 @@ EXCLUDE_STATIC_LIBRARIES = {
     'libffmpeg_yasm.a',
     'libppapi_cpp.a',
     'libv8_nosnapshot.a',
+  ],
+  'freebsd': [
+    'libffmpeg_yasm.a',
+    'libppapi_cpp.a',
+    'libprotobuf_full_do_not_use.a',
+    'libgenperf_libs.a',
+    'libv8_nosnapshot.a',
+    'libtranslator_static.a',
   ],
   'linux': [
     'libffmpeg_yasm.a',
