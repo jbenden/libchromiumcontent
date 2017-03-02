@@ -122,6 +122,7 @@ with open(args.out, 'w') as out:
             "components/bitmap_uploader",
             "components/cdm",
             "components/cookie_config",
+            "components/crash",
             "components/discardable_memory",
             "components/display_compositor",
             "components/filesystem",
@@ -148,6 +149,7 @@ with open(args.out, 'w') as out:
             "components/variations",
             "components/webcrypto",
             "components/webmessaging",
+            "third_party/mt19937ar",
         ])
 
     gen_list(
@@ -213,6 +215,7 @@ with open(args.out, 'w') as out:
             "third_party/angle/preprocessor",
             "third_party/angle/translator",
             "third_party/angle/translator_lib",
+            "third_party/libXNVCtrl",
         ])
 
     gen_list(
