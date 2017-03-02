@@ -26,7 +26,7 @@ group("targets") {
       "//third_party/webrtc/modules/desktop_capture",
       "//third_party/widevine/cdm:headers",
       "//third_party/widevine/cdm:widevinecdmadapter",
-      "//third_party/libXNVctrl",
+      "//third_party/libXNVCtrl",
       "//ui/content_accelerators",
       "//ui/display",
       "//ui/display/util",
