@@ -212,7 +212,7 @@ if (is_electron_build && !is_component_build) {
       ":base",
       ":cc",
       ":components",
-	  ":content",
+      ":content",
       ":ppapi",
       ":media",
       ":net",
