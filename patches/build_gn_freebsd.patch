@@ -1,5 +1,5 @@
---- a/build/config/BUILDCONFIG.gn	2017-02-24 08:22:05.341196000 -0700
-+++ b/build/config/BUILDCONFIG.gn	2017-02-23 10:57:28.334553000 -0700
+--- a/build/config/BUILDCONFIG.gn
++++ b/build/config/BUILDCONFIG.gn
 @@ -123,6 +123,8 @@
  #   even if the value is overridden, which is wasteful. See first bullet.
  
@@ -17,8 +17,8 @@
  ]
  if (is_win) {
    default_compiler_configs += [
---- a/third_party/WebKit/Source/platform/BUILD.gn	2017-02-01 19:03:09.000000000 -0700
-+++ b/third_party/WebKit/Source/platform/BUILD.gn	2017-02-23 10:55:30.585449000 -0700
+--- a/third_party/WebKit/Source/platform/BUILD.gn
++++ b/third_party/WebKit/Source/platform/BUILD.gn
 @@ -171,6 +171,7 @@
  }
  
@@ -27,8 +27,8 @@
    sources = [
      "text/CharacterPropertyDataGenerator.cpp",
      "text/CharacterPropertyDataGenerator.h",
---- a/third_party/widevine/cdm/BUILD.gn	2017-02-24 08:22:08.897471000 -0700
-+++ b/third_party/widevine/cdm/BUILD.gn	2017-02-23 10:56:04.736070000 -0700
+--- a/third_party/widevine/cdm/BUILD.gn
++++ b/third_party/widevine/cdm/BUILD.gn
 @@ -105,7 +105,7 @@
        "//build/config/sanitizers:deps",
      ]
@@ -38,8 +38,8 @@
        ldflags = [
          # Not to strip important symbols by -Wl,-dead_strip.
          "-Wl,-exported_symbol,_PPP_GetInterface",
---- a/content/common/set_process_title_linux.cc	2017-02-25 09:03:30.730894000 -0700
-+++ b/content/common/set_process_title_linux.cc	2017-02-25 10:03:22.892139000 -0700
+--- a/content/common/set_process_title_linux.cc
++++ b/content/common/set_process_title_linux.cc
 @@ -46,7 +46,9 @@
  #include <string.h>
  #include <unistd.h>
@@ -62,8 +62,8 @@
 +#endif
      g_main_argv = const_cast<char**>(main_argv);
  }
---- a/third_party/angle/BUILD.gn	2017-02-25 16:24:34.263054000 -0700
-+++ b/third_party/angle/BUILD.gn	2017-02-25 16:25:19.084791000 -0700
+--- a/third_party/angle/BUILD.gn
++++ b/third_party/angle/BUILD.gn
 @@ -415,6 +415,15 @@
        "@executable_path/",
      ]

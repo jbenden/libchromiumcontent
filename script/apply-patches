@@ -33,27 +33,37 @@ def apply_patches_for_dir(directory):
     prefix = os.path.relpath(root, directory)
     target = os.path.join(SRC_DIR, prefix)
     args = [sys.executable, PATCH_PY, '--directory', target, '--quiet']
-    print 'directory: {0}'.format(directory)
-    print 'root: {0}'.format(root)
-    print 'prefix: {0}'.format(prefix)
+    # print 'directory: {0}'.format(directory)
+    # print 'root: {0}'.format(root)
+    # print 'prefix: {0}'.format(prefix)
     for name in sorted(files):
       if not name.endswith('.patch'):
         continue
       patch = os.path.join(root, name)
-      print 'patch: {0}'.format(patch)
+      # print 'patch: {0}'.format(patch)
       if sys.platform.startswith('freebsd'):
-        skip_patches = [os.path.join(PATCHES_DIR, 'build_gn.patch')]
-        print 'patch in skip_patches?: {0}'.format(repr(skip_patches))
+        skip_patches = [
+          os.path.join(PATCHES_DIR, 'build_gn.patch'),
+          os.path.join(PATCHES_DIR, 'third_party', 'ffmpeg', 'build_gn.patch'),
+          os.path.join(PATCHES_DIR, 'v8', 'build_gn.patch'),
+        ]
+        # print 'patch in skip_patches?: {0}'.format(repr(skip_patches))
         if patch in skip_patches:
-          print '{0} was skipped'.format(patch)
+          print '{0} was skipped'.format(os.path.join(prefix, name))
           continue
       else:
-        skip_patches = [os.path.join(PATCHES_DIR, 'build_gn_freebsd.patch')]
+        skip_patches = [
+          os.path.join(PATCHES_DIR, 'build_gn_freebsd.patch'),
+          os.path.join(PATCHES_DIR, 'v8', 'build_gn_freebsd.patch'),
+        ]
         if patch in skip_patches:
-          print '{0} was skipped'.format(patch)
+          print '{0} was skipped'.format(os.path.join(prefix, patch))
           continue
+      print "Patching from {0}".format(os.path.join(prefix, name))
+      sys.stdout.flush()
+      sys.stderr.flush()
       if subprocess.call(args + [patch]):
-        return '{0} failed to apply'.format(os.path.basename(patch))
+        return '{0} failed to apply'.format(os.path.join(prefix, name))
 
 
 def revert_changes_for_dir(directory):
