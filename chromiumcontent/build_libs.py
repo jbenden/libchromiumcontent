@@ -118,7 +118,6 @@ with open(args.out, 'w') as out:
         "obj_content",
         [
             "content",
-            "content/common",
         ])
 
     gen_list(
