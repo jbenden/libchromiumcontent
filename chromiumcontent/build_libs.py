@@ -25,6 +25,7 @@ with open(args.out, 'w') as out:
             "build",
             "chrome/browser/ui/libgtkui",
             "content",
+            "content/common",
             "crypto",
             "dbus",
             "device",
