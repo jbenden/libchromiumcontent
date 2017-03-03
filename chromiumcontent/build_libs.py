@@ -24,8 +24,6 @@ with open(args.out, 'w') as out:
         [
             "build",
             "chrome/browser/ui/libgtkui",
-            "content",
-            "content/common",
             "crypto",
             "dbus",
             "device",
@@ -113,6 +111,14 @@ with open(args.out, 'w') as out:
             "cc/ipc",
             "cc/proto",
             "cc/surfaces",
+        ])
+
+    gen_list(
+        out,
+        "obj_content",
+        [
+            "content",
+            "content/common",
         ])
 
     gen_list(
