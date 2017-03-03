@@ -33,14 +33,17 @@ def apply_patches_for_dir(directory):
     prefix = os.path.relpath(root, directory)
     target = os.path.join(SRC_DIR, prefix)
     args = [sys.executable, PATCH_PY, '--directory', target, '--quiet']
+    print 'directory: {0}'.format(directory)
+    print 'root: {0}'.format(root)
+    print 'prefix: {0}'.format(prefix)
     for name in sorted(files):
       if not name.endswith('.patch'):
         continue
       if sys.platform.startswith('freebsd'):
-        if len(prefix) < 2 and name.endswith('build_gn.patch'):
+        if root == PATCHES_DIR and name.endswith('build_gn.patch'):
           continue
       else:
-        if len(prefix) < 2 and name.endswith('build_gn_freebsd.patch'):
+        if root == PATCHES_DIR and name.endswith('build_gn_freebsd.patch'):
           continue
       patch = os.path.join(root, name)
       if subprocess.call(args + [patch]):
