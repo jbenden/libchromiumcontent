@@ -40,8 +40,10 @@ def apply_patches_for_dir(directory):
       if not name.endswith('.patch'):
         continue
       patch = os.path.join(root, name)
+      print 'patch: {0}'.format(patch)
       if sys.platform.startswith('freebsd'):
         skip_patches = [os.path.join(PATCHES_DIR, 'build_gn.patch')]
+        print 'patch in skip_patches?: {0}'.format(repr(skip_patches))
         if patch in skip_patches:
           print '{0} was skipped'.format(patch)
           continue
