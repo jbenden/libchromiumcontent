@@ -450,9 +450,12 @@ def copy_binaries(target_arch, component, output_dir, create_debug_archive):
     if create_debug_archive:
       print 'Extracting debug symbols...'
     for binary in BINARIES[TARGET_PLATFORM]:
-      run_strip(target_arch,
-                os.path.join(target_dir, os.path.basename(binary)),
-                create_debug_archive)
+      if os.environ.has_key('BUILDTYPE') and os.environ['BUILDTYPE'] != 'Release':
+        print 'Skipping binaries symbol strip'
+      else:
+        run_strip(target_arch,
+                  os.path.join(target_dir, os.path.basename(binary)),
+                  create_debug_archive)
     if component == 'shared_library':
       for library in glob.glob(os.path.join(target_dir, match)):
         run_strip(target_arch, library, create_debug_archive)
