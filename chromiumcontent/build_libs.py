@@ -185,7 +185,6 @@ with open(args.out, 'w') as out:
             "services/device",
             "services/file",
             "services/service_manager/public",
-            "services/service_manager/public/cpp",
             "services/service_manager/runner",
             "services/service_manager/service_manager",
             "services/shell/public",
