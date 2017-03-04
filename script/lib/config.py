@@ -26,8 +26,11 @@ def get_output_dir(target_arch, component):
 def get_configuration(target_arch):
   if os.environ.has_key('BUILDTYPE'):
     config = os.environ['BUILDTYPE']
+    if config != 'Debug' or config != 'Release':
+      config = 'Debug'
   else:
     config = 'Release'
   if target_arch == 'x64' and sys.platform in ['win32', 'cygwin']:
     config += '_x64'
+  print 'get_configuration: {0}'.format(config)
   return config
