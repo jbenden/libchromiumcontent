@@ -12,7 +12,6 @@ group("targets") {
       "//components/security_state/content",
       "//components/security_state/core",
       "//content",
-      "//content/public/common",
       "//content:sandbox_helper_win",
       "//content/public/app:both",
       "//content/shell:pak",
