@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import sys
 
 
@@ -23,7 +24,10 @@ def get_output_dir(target_arch, component):
 
 
 def get_configuration(target_arch):
-  config = 'Release'
+  if os.environ.has_key('BUILDTYPE'):
+    config = os.environ['BUILDTYPE']
+  else:
+    config = 'Release'
   if target_arch == 'x64' and sys.platform in ['win32', 'cygwin']:
     config += '_x64'
   return config
