@@ -212,7 +212,6 @@ if (is_electron_build && !is_component_build) {
       ":base",
       ":cc",
       ":components",
-      ":content",
       ":ppapi",
       ":media",
       ":net",
@@ -257,14 +256,6 @@ if (is_electron_build && !is_component_build) {
     sources = []
     if (defined(obj_components)) {
       sources += obj_components
-    }
-  }
-
-  static_library("content") {
-    complete_static_lib = true
-    sources = []
-    if (defined(obj_content)) {
-      sources += obj_content
     }
   }
 
