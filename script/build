@@ -52,7 +52,7 @@ def parse_args():
                       help='static_library or shared_library or all')
   parser.add_argument('-R', '--no_shared_library', action='store_true',
                       help='Do not build shared library version')
-  parser.add_argument('-j', '--make_jobs', default=multiprocessing.cpu_count(), help='Number of parallel make jobs')
+  parser.add_argument('-j', '--make_jobs', default=str(multiprocessing.cpu_count()), help='Number of parallel make jobs')
   return parser.parse_args()
 
 
