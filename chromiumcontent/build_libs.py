@@ -277,6 +277,6 @@ NINJA = 'ninja'
 if sys.platform.startswith('freebsd'):
   NINJA = '/usr/local/bin/ninja'
 
-subprocess.check_call([NINJA, 'chromiumcontent:libs'])
+subprocess.check_call([NINJA, '-j', '1', 'chromiumcontent:libs'])
 
 open(args.stamp, 'w')
