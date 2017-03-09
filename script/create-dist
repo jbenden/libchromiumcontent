@@ -458,7 +458,11 @@ def copy_binaries(target_arch, component, output_dir, create_debug_archive):
                   create_debug_archive)
     if component == 'shared_library':
       for library in glob.glob(os.path.join(target_dir, match)):
-        run_strip(target_arch, library, create_debug_archive)
+        if os.environ.has_key('BUILDTYPE') and os.environ['BUILDTYPE'] != 'Release':
+          print 'Skipping binaries symbol strip'
+        else:
+          if not os.environ.has_key('NO_STRIP'):
+            run_strip(target_arch, library, create_debug_archive)
       # move .debug files into a separate directory
       debug_dir = os.path.join(os.path.dirname(target_dir), '.debug')
       mkdir_p(debug_dir)
